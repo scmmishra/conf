@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>{% block title %} {{ title | striptags }} {% endblock %}</title>
+
+	<link rel="manifest" href="/manifest.json">
+
+	{% block meta %}{% endblock %}
+
+	<!-- Meta tags for SEO and Social Media -->
+	<html itemscope itemtype="http://schema.org/Webpage">
+
+	<!-- Schema.org markup for Google+ -->
+	<meta itemprop="name" content="IndiaOS - 2019">
+	<meta itemprop="description" content="IndiaOS is an Open Source indiaos organized by the Frappe and DBIT, Mumbai.">
+	<meta itemprop="image" content="{{ frappe.utils.get_url() }}/indiaos-g+.png">
+
+	<!-- Twitter Card data -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@indiaos">
+	<meta name="twitter:title" content="IndiaOS - 2019">
+	<meta name="twitter:description" content="IndiaOS 2019.">
+	<meta name="twitter:creator" content="@indiaos">
+
+	<!-- Twitter summary card with large image must be at least 280x150px -->
+	<meta name="twitter:image:src" content="{{ frappe.utils.get_url() }}/assets/conference/img/indiaos-twitter.png">
+
+	<!-- Open Graph data -->
+	<meta property="og:title" content="IndiaOS" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="{{ frappe.utils.get_url() }}" />
+	<meta property="og:image" content="{{ frappe.utils.get_url() }}/assets/conference/img/og-300.png" />
+	<meta property="og:image:width" content="300" />
+	<meta property="og:image:height" content="300" />
+	<meta property="og:description" content="IndiaOS is an annual Open Source Conference organized by the Frappe and Zerodha Tech." />
+	<meta property="og:site_name" content="IndiaOS - 2019" />
+
+	<!-- End of Meta Tags-->
+	<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap" rel="stylesheet">
+	<link rel="canonical" href="{{ frappe.utils.get_url() }}" />
+
+	<!-- favicons-->
+	<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="img/manifest.json">
+	<meta name="msapplication-TileColor" content="#000">
+	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+	<meta name="theme-color" content="#000">
+	<link rel="shortcut icon" href="img/favicon.ico">
+
+	<!-- End -->
+
+	<style>
+		@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,500,600,700&display=swap');
+		html { font-family: 'IBM Plex Sans', sans-serif; }
+
+		html body {
+			background-size: 32px 32px;
+			background-image: radial-gradient(circle, #dedede 1px, rgba(0, 0, 0, 0) 1px);
+		}
+
+		.paper {
+			background: #fff;
+			background: -webkit-gradient(linear, 0 0, 0 100%, from(#EDF2F7), color-stop(4%, #fff)) 0 4px;
+			background: -webkit-linear-gradient(top, #EDF2F7 0%, #fff 8%) 0 4px;
+			background: -moz-linear-gradient(top, #EDF2F7 0%, #fff 8%) 0 4px;
+			background: -ms-linear-gradient(top, #EDF2F7 0%, #fff 8%) 0 4px;
+			background: -o-linear-gradient(top, #EDF2F7 0%, #fff 8%) 0 4px;
+			background: linear-gradient(top, #EDF2F7 0%, #fff 8%) 0 4px;
+			-webkit-background-size: 100% 25px;
+			-moz-background-size: 100% 25px;
+			-ms-background-size: 100% 25px;
+			-o-background-size: 100% 25px;
+			background-size: 100% 25px;
+		}
+
+		.paper::before {
+		  content: '';
+		  position: absolute;
+		  width: 4px;
+		  top: 0;
+		  left: 30px;
+		  bottom: 0;
+		  border: 1px solid;
+		  border-color: transparent #efe4e4;
+		}
+
+		.container {
+			max-width: 1024px;
+		}
+	</style>
+	
+	
+	<script>
+		window.frappe = {};
+		frappe.ready_events = [];
+		frappe.ready = function(fn) {
+			frappe.ready_events.push(fn);
+		}
+		window.dev_server = {{ dev_server }};
+		window.socketio_port = {{ frappe.socketio_port }};
+	</script>
+</head>
+
+<body class="bg-gray-100 font-body">
+		{% block navbar %}
+			{% include "templates/navbar.html" %}
+		{% endblock %}
+		{% block body %}{% endblock %}
+		{% block footer %}
+			{% include "templates/footer.html" %}
+		{% endblock %}
+	</div>
+	{% block scripts %} {% endblock %}
+	<!-- csrf_token -->
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+</body>
+</html>

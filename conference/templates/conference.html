@@ -10,6 +10,7 @@
 	<link rel="manifest" href="/manifest.json">
 
 	{% block meta %}{% endblock %}
+	{% block head_includes %}{% endblock %}
 
 	<!-- Meta tags for SEO and Social Media -->
 	<html itemscope itemtype="http://schema.org/Webpage">
@@ -41,7 +42,7 @@
 
 	<!-- End of Meta Tags-->
 	<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap" rel="stylesheet">
+	<link href="/assets/conference/css/custom.css" rel="stylesheet">
 	<link rel="canonical" href="{{ frappe.utils.get_url() }}" />
 
 	<!-- favicons-->
@@ -64,49 +65,7 @@
 	<meta name="theme-color" content="#000">
 	<link rel="shortcut icon" href="img/favicon.ico">
 
-	<!-- End -->
-
-	<style>
-		@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,500,600,700&display=swap');
-		html { font-family: 'IBM Plex Sans', sans-serif; }
-
-		html body {
-			background-size: 32px 32px;
-			background-image: radial-gradient(circle, #dedede 1px, rgba(0, 0, 0, 0) 1px);
-		}
-
-		.paper {
-			background: #fff;
-			background: -webkit-gradient(linear, 0 0, 0 100%, from(#EDF2F7), color-stop(4%, #fff)) 0 4px;
-			background: -webkit-linear-gradient(top, #EDF2F7 0%, #fff 8%) 0 4px;
-			background: -moz-linear-gradient(top, #EDF2F7 0%, #fff 8%) 0 4px;
-			background: -ms-linear-gradient(top, #EDF2F7 0%, #fff 8%) 0 4px;
-			background: -o-linear-gradient(top, #EDF2F7 0%, #fff 8%) 0 4px;
-			background: linear-gradient(top, #EDF2F7 0%, #fff 8%) 0 4px;
-			-webkit-background-size: 100% 25px;
-			-moz-background-size: 100% 25px;
-			-ms-background-size: 100% 25px;
-			-o-background-size: 100% 25px;
-			background-size: 100% 25px;
-		}
-
-		.paper::before {
-		  content: '';
-		  position: absolute;
-		  width: 4px;
-		  top: 0;
-		  left: 30px;
-		  bottom: 0;
-		  border: 1px solid;
-		  border-color: transparent #efe4e4;
-		}
-
-		.container {
-			max-width: 1024px;
-		}
-	</style>
-	
-	
+	<!-- End -->	
 	<script>
 		window.frappe = {};
 		frappe.ready_events = [];
@@ -118,7 +77,7 @@
 	</script>
 </head>
 
-<body class="bg-gray-100 font-body">
+<body class="bg-gray-100 font-body" frappe-session-status="{{ 'logged-in' if frappe.session.user != 'Guest' else 'logged-out'}}" data-path="{{ path | e }}" {%- if template and template.endswith('.md') %} frappe-content-type="markdown" {% endif -%}>
 		{% block navbar %}
 			{% include "templates/navbar.html" %}
 		{% endblock %}
@@ -127,8 +86,13 @@
 			{% include "templates/footer.html" %}
 		{% endblock %}
 	</div>
-	{% block scripts %} {% endblock %}
 	<!-- csrf_token -->
-	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="/assets/frappe/js/lib/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/assets/js/frappe-web.min.js"></script>
+	<script type="text/javascript" src="/assets/js/bootstrap-4-web.min.js"></script>
+	{%- for link in web_include_js %}
+	<script type="text/javascript" src="{{ link | abs_url }}"></script>
+	{%- endfor -%}
+	{% block script %} {% endblock %}
 </body>
 </html>

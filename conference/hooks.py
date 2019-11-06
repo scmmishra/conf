@@ -10,6 +10,7 @@ app_icon = "octicon octicon-file-directory"
 app_color = "grey"
 app_email = "developers@frappe.io"
 app_license = "GPLv3"
+home_page = "index"
 
 # Includes in <head>
 # ------------------

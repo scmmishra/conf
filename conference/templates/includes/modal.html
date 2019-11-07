@@ -60,26 +60,29 @@
 				</div>
 			</div>
 			<!--Body-->
-			<div class="my-5">
+			<form id="register-form" class="my-5">
 				<div class="mb-4">
 					<label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">Name</label>
-					<input class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane Doe">
+					<input class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" id="name" type="text" placeholder="Jane Doe" required="True">
+					<p id="error-name" class="text-xs text-red-500 mt-2 hidden">This field is required</p>
 				</div>
 				<div class="mb-4">
 					<label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">E-mail</label>
-					<input class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="email" placeholder="jane@example.com">
+					<input class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" id="email" type="email" placeholder="jane@example.com" required="True">
+					<p id="error-email" class="text-xs text-red-500 mt-2 hidden">Please enter a valid email</p>
 				</div>
 				<div class="mb-6">
 					<label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">Organization You Represent</label>
-					<input class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Cool Stuff Inc.">
+					<input class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white" id="organization" type="text" placeholder="Cool Stuff Inc.">
+					<p id="error-organization" class="text-xs text-red-500 mt-2 hidden">This field is required</p>
 				</div>
-			</div>
+			</form>
 			<!--Footer-->
 			<div class="flex justify-end pt-5">
-				<button href="#responsive-header" class="font-mono font-base font-mono no-underline text-grey-darkest mr-3 bg-gray-400 px-3 py-2 rounded border-gray-500 border-b-4 hover:border-gray-600">
+				<button href="#responsive-header" class="font-mono font-base font-mono no-underline text-grey-darkest mr-3 bg-gray-400 px-3 py-2 rounded border-gray-500 border-b-4 hover:border-gray-600 modal-close">
 					Cancel
 				</button>
-				<button href="#responsive-header" class="font-mono font-base font-mono no-underline text-grey-darkest bg-yellow-400 px-3 py-2 rounded border-yellow-500 border-b-4 hover:border-yellow-600">
+				<button href="#responsive-header" class="font-mono font-base font-mono no-underline text-grey-darkest bg-yellow-400 px-3 py-2 rounded border-yellow-500 border-b-4 hover:border-yellow-600" onclick="register()">
 					Register Free
 				</button>
 			</div>
@@ -107,16 +110,47 @@
 	}
 
 	for (let i = 0; i < closeButton.length; i++) {
-
 		const elements = closeButton[i];
-
 		elements.onclick = (e) => modalClose();
-
 		modal.style.display = 'none';
-
 		window.onclick = function (event) {
 			if (event.target == modal) modalClose();
 		}
+	}
+
+	fetch_form = function(formData, required) {
+		var form = {};
+		formData.forEach(function(value, key){
+    		form[key] = value;
+		});
+
+		if (Object.keys(form) == required) return form
+		return false
+	}
+
+	function register() {
+		let validated = true
+		let inputs = ['name', 'email', 'organization'];
+		inputs.forEach((id) => {
+			let element = document.getElementById(id)
+			if(!element.checkValidity()) {
+				validated = false
+				document.getElementById(`error-${id}`).classList.remove("hidden")
+			}
+			else {
+				document.getElementById(`error-${id}`).classList.add("hidden")
+			}
+		});
+
+		if (validated) {
+			let form = {}
+			inputs.forEach((id) => form[id] = document.getElementById(id).value)
+			form.event = "IndiaOS 2019"
+			frappe.call('conference.conference.doctype.conference_participant.conference_participant.register', form).then(res => {
+				document.forms.namedItem('register-form').reset()
+			})
+		}
+		else return
 	}
 </script>
 {% endblock %}

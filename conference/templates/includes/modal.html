@@ -1,46 +1,60 @@
 {% block head_includes %}
 <style>
-	.animated {
-		-webkit-animation-duration: 1s;
-		animation-duration: 1s;
-		-webkit-animation-fill-mode: both;
-		animation-fill-mode: both;
+.animated {
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+.animated.faster {
+	-webkit-animation-duration: 400ms;
+	animation-duration: 400ms;
+}
+
+.fadeIn {
+	-webkit-animation-name: fadeIn;
+	animation-name: fadeIn;
+}
+
+.fadeOut {
+	-webkit-animation-name: fadeOut;
+	animation-name: fadeOut;
+}
+
+@keyframes fadeIn {
+	from {
+		  bottom: -100%;
 	}
 
-	.animated.faster {
-		-webkit-animation-duration: 500ms;
-		animation-duration: 500ms;
+	to {
+		  bottom: 0%;
+	}
+}
+
+@keyframes fadeOut {
+	from {
+		opacity: 1;
 	}
 
-	.fadeIn {
-		-webkit-animation-name: fadeIn;
-		animation-name: fadeIn;
+	to {
+		opacity: 0;
 	}
+}
 
-	.fadeOut {
-		-webkit-animation-name: fadeOut;
-		animation-name: fadeOut;
-	}
+.grow {
+	-webkit-animation-name: grow;
+	animation-name: grow;
+}
 
-	@keyframes fadeIn {
-		from {
-			  bottom: -100%;
-		}
-
-		to {
-			  bottom: 0%;
-		}
-	}
-
-	@keyframes fadeOut {
-		from {
-			opacity: 1;
-		}
-
-		to {
-			opacity: 0;
-		}
-	}
+@keyframes grow {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
 
 /**
  * Extracted from: SweetAlert
@@ -224,7 +238,7 @@
 				</div>
 			</form>
 
-			<div id="success" class="py-5">
+			<div id="success" class="py-20 lg:py-5">
 				<div class="success-checkmark">
 					<div class="check-icon" id='check-icon'>
 						<span class="icon-line line-tip"></span>
@@ -234,6 +248,12 @@
 					</div>
 				</div>
 				<div class="text-center">You have successfully registered for IndiaOS. </div>
+				<!-- <div class="text-center text-gray-600">P.S. We sent an email with the ticket attached.</div> -->
+			</div>
+
+			<div id="already-registered" class="py-12 lg:py-5">
+				<img id="emoji" class="mx-auto w-24 h-24 m-10 animated faster grow" src="/assets/conference/img/monocle.png"></img>
+				<div class="text-center">You have already registered for IndiaOS. We will send you a reminder 3 days before the conference.</div>
 				<!-- <div class="text-center text-gray-600">P.S. We sent an email with the ticket attached.</div> -->
 			</div>
 			<!--Footer-->
@@ -260,10 +280,20 @@
 		setTimeout(() => {
 			modal.style.display = 'none';
 		}, 500);
+
+		resetModal();
+	}
+
+	function resetModal() {
+		hide('success')
+		hide('already-registered')
+		show('register-form')
+		show('actions')
+		document.getElementById('modal-title').innerHTML = "Register"
 	}
 
 	const openModal = () => {
-		hide('success')
+		resetModal()
 		modal.classList.remove('fadeOut');
 		modal.classList.add('fadeIn');
 		modal.style.display = 'flex';
@@ -288,12 +318,25 @@
 
 	function success() {
 		show('success')
+		hide('already-registered')
 		hide('register-form')
 		hide('actions')
 		hide('check-icon')
 		document.getElementById('modal-title').innerHTML = "Yayy 🎉"
 		setTimeout(function () {
 			show('check-icon')
+		}, 10);
+	}
+
+	function fail(reason) {
+		show(reason)
+		hide('register-form')
+		hide('success')
+		hide('actions')
+		hide('emoji')
+		document.getElementById('modal-title').innerHTML = "Oops!"
+		setTimeout(function () {
+			show('emoji')
 		}, 10);
 	}
 
@@ -316,8 +359,15 @@
 			inputs.forEach((id) => form[id] = document.getElementById(id).value)
 			form.event = "IndiaOS 2019"
 			frappe.call('conference.conference.doctype.conference_participant.conference_participant.register', form).then(res => {
-				document.forms.namedItem('register-form').reset()
-				success();
+				let msg = res.message
+				if (msg.status == 'success') {
+					success();
+					document.forms.namedItem('register-form').reset()
+				}
+				if (msg.status == 'failed') {
+					fail(msg.reason)
+					document.forms.namedItem('register-form').reset()
+				}
 			})
 		}
 		else return

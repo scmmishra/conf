@@ -7,7 +7,11 @@ import frappe
 from frappe.model.document import Document
 
 class ConferenceParticipant(Document):
-	pass
+	def validate(self):
+		doc = frappe.get_value("Conference Participant", {'email': self.email})
+		if doc:
+			raise frappe.exceptions.UniqueValidationError 
+
 
 
 @frappe.whitelist(allow_guest=True)
@@ -17,4 +21,8 @@ def register(name, email, organization, event="IndiaOS 2019"):
 	part.email = email
 	part.organization = organization
 	part.event = event
-	part.save(ignore_permissions=True)
+	try:
+		part.save(ignore_permissions=True)
+	except frappe.exceptions.UniqueValidationError:
+		return {'status': 'failed', 'reason': 'already-registered'}
+	return {'status': 'success'}

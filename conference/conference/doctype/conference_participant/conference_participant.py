@@ -17,4 +17,4 @@ def register(name, email, organization, event="IndiaOS 2019"):
 	part.email = email
 	part.organization = organization
 	part.event = event
-	part.save()
+	part.save(ignore_permissions=True)

@@ -41,6 +41,152 @@
 			opacity: 0;
 		}
 	}
+
+/**
+ * Extracted from: SweetAlert
+ * Modified by: Istiak Tridip
+ */
+.success-checkmark {
+  width: 80px;
+  height: 115px;
+  margin: 0 auto;
+}
+.success-checkmark .check-icon {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  border-radius: 50%;
+  box-sizing: content-box;
+  border: 4px solid #f6e05e;
+}
+.success-checkmark .check-icon::before {
+  top: 3px;
+  left: -2px;
+  width: 30px;
+  transform-origin: 100% 50%;
+  border-radius: 100px 0 0 100px;
+}
+.success-checkmark .check-icon::after {
+  top: 0;
+  left: 30px;
+  width: 60px;
+  transform-origin: 0 50%;
+  border-radius: 0 100px 100px 0;
+  animation: rotate-circle 4.25s ease-in;
+}
+.success-checkmark .check-icon::before, .success-checkmark .check-icon::after {
+  content: '';
+  height: 100px;
+  position: absolute;
+  background: #FFFFFF;
+  transform: rotate(-45deg);
+}
+.success-checkmark .check-icon .icon-line {
+  height: 5px;
+  background-color: #f6e05e;
+  display: block;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+}
+.success-checkmark .check-icon .icon-line.line-tip {
+  top: 46px;
+  left: 14px;
+  width: 25px;
+  transform: rotate(45deg);
+  animation: icon-line-tip 0.75s;
+}
+.success-checkmark .check-icon .icon-line.line-long {
+  top: 38px;
+  right: 8px;
+  width: 47px;
+  transform: rotate(-45deg);
+  animation: icon-line-long 0.75s;
+}
+.success-checkmark .check-icon .icon-circle {
+  top: -4px;
+  left: -4px;
+  z-index: 10;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  position: absolute;
+  box-sizing: content-box;
+  border: 4px solid rgba(246, 224, 94, 0.5);
+}
+.success-checkmark .check-icon .icon-fix {
+  top: 8px;
+  width: 5px;
+  left: 26px;
+  z-index: 1;
+  height: 85px;
+  position: absolute;
+  transform: rotate(-45deg);
+  background-color: #FFFFFF;
+}
+@keyframes rotate-circle {
+  0% {
+    transform: rotate(-45deg);
+  }
+  5% {
+    transform: rotate(-45deg);
+  }
+  12% {
+    transform: rotate(-405deg);
+  }
+  100% {
+    transform: rotate(-405deg);
+  }
+}
+@keyframes icon-line-tip {
+  0% {
+    width: 0;
+    left: 1px;
+    top: 19px;
+  }
+  54% {
+    width: 0;
+    left: 1px;
+    top: 19px;
+  }
+  70% {
+    width: 50px;
+    left: -8px;
+    top: 37px;
+  }
+  84% {
+    width: 17px;
+    left: 21px;
+    top: 48px;
+  }
+  100% {
+    width: 25px;
+    left: 14px;
+    top: 45px;
+  }
+}
+@keyframes icon-line-long {
+  0% {
+    width: 0;
+    right: 46px;
+    top: 54px;
+  }
+  65% {
+    width: 0;
+    right: 46px;
+    top: 54px;
+  }
+  84% {
+    width: 55px;
+    right: 0px;
+    top: 35px;
+  }
+  100% {
+    width: 47px;
+    right: 8px;
+    top: 38px;
+  }
+}
 </style>
 {% endblock %}
 
@@ -49,7 +195,7 @@
 		<div class="modal-content py-4 text-left px-6">
 			<!--Title-->
 			<div class="flex justify-between items-center pb-3">
-				<p class="text-2xl font-bold">Register</p>
+				<p id="modal-title" class="text-2xl font-bold">Register</p>
 				<div class="modal-close cursor-pointer z-50">
 					<svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
 						viewBox="0 0 18 18">
@@ -77,8 +223,21 @@
 					<p id="error-organization" class="text-xs text-red-500 mt-2 hidden">This field is required</p>
 				</div>
 			</form>
+
+			<div id="success" class="py-5">
+				<div class="success-checkmark">
+					<div class="check-icon" id='check-icon'>
+						<span class="icon-line line-tip"></span>
+						<span class="icon-line line-long"></span>
+						<div class="icon-circle"></div>
+						<div class="icon-fix"></div>
+					</div>
+				</div>
+				<div class="text-center">You have successfully registered for IndiaOS. </div>
+				<!-- <div class="text-center text-gray-600">P.S. We sent an email with the ticket attached.</div> -->
+			</div>
 			<!--Footer-->
-			<div class="flex justify-end pt-5">
+			<div id="actions" class="flex justify-end pt-5">
 				<button href="#responsive-header" class="font-mono font-base font-mono no-underline text-grey-darkest mr-3 bg-gray-400 px-3 py-2 rounded border-gray-500 border-b-4 hover:border-gray-600 modal-close">
 					Cancel
 				</button>
@@ -104,6 +263,7 @@
 	}
 
 	const openModal = () => {
+		hide('success')
 		modal.classList.remove('fadeOut');
 		modal.classList.add('fadeIn');
 		modal.style.display = 'flex';
@@ -118,14 +278,23 @@
 		}
 	}
 
-	fetch_form = function(formData, required) {
-		var form = {};
-		formData.forEach(function(value, key){
-    		form[key] = value;
-		});
+	function hide(id) {
+		document.getElementById(id).style.display = "none";
+	}
 
-		if (Object.keys(form) == required) return form
-		return false
+	function show(id) {
+		document.getElementById(id).style.display = "block";
+	}
+
+	function success() {
+		show('success')
+		hide('register-form')
+		hide('actions')
+		hide('check-icon')
+		document.getElementById('modal-title').innerHTML = "Yayy 🎉"
+		setTimeout(function () {
+			show('check-icon')
+		}, 10);
 	}
 
 	function register() {
@@ -148,6 +317,7 @@
 			form.event = "IndiaOS 2019"
 			frappe.call('conference.conference.doctype.conference_participant.conference_participant.register', form).then(res => {
 				document.forms.namedItem('register-form').reset()
+				success();
 			})
 		}
 		else return

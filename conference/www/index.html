@@ -1,6 +1,6 @@
 {% extends "templates/conference.html" %}
 
-{% block title %}IndiaOS 2019 - An Open Source Conference{% endblock %}
+{% block title %}IndiaOS 2020 - An Open Source Conference{% endblock %}
 
 {% block head_includes %}
 <script src="assets/conference/js/easter.js"></script>
@@ -18,8 +18,11 @@
 			<p class="font-mono">18 January 2019 | Bangalore, India</p>
 			<p class="font-mono mt-8 leading-relaxed">See what's shaping the future of software, Join a community connected by code and turn ideas into innovations.</p>
 			<div class="mt-8">
-				<button onclick="openModal()" href="#responsive-header" class="font-mono mt-8 font-base font-mono no-underline text-grey-darkest mr-6 bg-yellow-400 px-3 py-2 rounded border-yellow-500 border-b-4 hover:border-yellow-600">
+				<button onclick="openModal()" href="#responsive-header" class="font-mono mt-8 font-base font-mono no-underline text-grey-darkest mr-3 bg-yellow-400 px-3 py-2 rounded border-yellow-500 border-b-4 hover:border-yellow-600">
 					Register Free
+				</button>
+				<button onclick="window.location.href='/propose-a-talk'" target="blank" class="font-mono font-base font-mono no-underline text-grey-darkest mr-3 bg-gray-400 px-3 py-2 rounded border-gray-500 border-b-4 hover:border-gray-600 modal-close">
+					Propose a Talk
 				</button>
 			</div>
 		</div>
@@ -33,7 +36,7 @@
 	<div class="bg-white py-10 px-6 lg:p-12 shadow-lg rounded-lg paper relative mx-2 lg:mx-0">
 		<h2 class="text-3xl tracking-wide font-bold">Go Deeper Into Open Source</h2>
 		<p class="font-mono mt-3 p-0 lg:pr-12 leading-relaxed">Open Source India is a free and non-commercial community event. The goal is to provide software developers and policy makers, communities and enthusiasts a platform to meet and interact. We want to see IndiaOS to grow as a platform to share and grow open source projects and to foster the values of open source in modern software development</p>
-		<h3 class="text-2xl font-bold mt-10 tracking-wide">Agenda for IndiaOS - 2020</h3>
+		<h3 class="text-2xl font-bold mt-10 tracking-wide">Agenda for India<span class="tracking-wide text-yellow-500">OS</span> - 2020</h3>
 		<div class="ml-5 lg:ml-12 font-mono mt-5">
 			<ul class="list-disc yellow-list">
 				<li class="mb-2">FOSS Product Showcase</li>
@@ -78,5 +81,7 @@
 		clickCount = clickCount + 1;
 		if (clickCount%5 == 0) cool()
 	}
+
+	console.log("Code is an Easter Egg!")
 </script>
 {% endblock %}

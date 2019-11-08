@@ -25,13 +25,13 @@ class ConferenceParticipant(Document):
 					'full_name': self.full_name,
 					'name': self.name
 				},
-				now=True
+				now=False
 			)
 		except frappe.exceptions.OutgoingEmailError:
 			return
 
 @frappe.whitelist(allow_guest=True)
-def register(name, email, organization, event="IndiaOS 2019"):
+def register(name, email, organization='', event="IndiaOS 2019"):
 	part = frappe.new_doc("Conference Participant")
 	part.full_name = name
 	part.email = email

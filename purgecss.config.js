@@ -13,6 +13,7 @@ module.exports = {
   ],
   content: [
     "./conference/www/index.html",
+    "./conference/www/travel.html",
     "./conference/templates/game.html",
     "./conference/templates/conference.html",
     "./conference/templates/includes/footer.html",

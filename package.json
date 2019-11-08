@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "postcss": "^7.0.21",
-    "tailwindcss": "^1.1.3"
-  }
-}

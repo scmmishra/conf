@@ -76,8 +76,9 @@ h1, h2, h3, p {
 .ticket__section > * + * {
 	margin-top: 0.25rem;
 }
-.ticket__section > h3 {
+.ticket__section > .heading {
 	font-size: 1.125rem;
+	font-weight: bold;
 	margin-bottom: 0.5rem;
 }
 
@@ -90,7 +91,8 @@ h1, h2, h3, p {
 	border-radius: 0 0 0.325rem 0.325rem;
 }
 
-.ticket__footer h3 {
+.ticket__footer div {
+	font-size: 1.125rem;
 	display: inline-block;
 	width: 48%;
 }
@@ -102,32 +104,32 @@ h1, h2, h3, p {
 <div style="height: 5em;"></div>
 <div class="ticket_preheading">
 	<h2>Here's Your Ticket for IndiaOS</h2>
-	<p>We look forward to seeing you at the conference. <br>We shall send you an email with the agenda soon.
-	</p>
+	<span>We look forward to seeing you at the conference. <br>We shall send you an email with the agenda soon.
+	</span>
 </div>
 <article class="ticket">
 	<header class="ticket__wrapper">
 		<div class="ticket__header">
 			<h2>{{ full_name }}</h2>
-			<p style="color: #4A5568; font-size: 0.7rem; font-weight: 400;">{{ name }}</p>
+			<span style="color: #4A5568; font-size: 0.7rem; font-weight: 400;">{{ name }}</span>
 		</div>
 	</header>
 	<div class="ticket__body">
 		<section class="ticket__section">
-			<h3>Venue</h3>
-			<p>Zerodha, #153/154</p>
+			<div class="heading">Venue</div>
+			<span>Zerodha, #153/154
 			<br>4th Cross, J.P Nagar 4th Phase
-			<br>Bengaluru - 560078</p>
+			<br>Bengaluru - 560078</span>
 		</section>
 		<section class="ticket__section">
-			<h3>Date</h3>
-			<p>18th January 2020
-			<br>9:00 AM to 6:30 PM</p>
+			<div class="heading">Date</div>
+			<span>18th January 2020
+			<br>9:00 AM to 6:30 PM</span>
 		</section>
 	</div>
 	<footer class="ticket__footer">
-		<h3>India<span class="ticket__accent">OS</span></h3>
-		<h3 class="right">18th Jan</h3>
+		<div>India<span class="ticket__accent">OS</span></div>
+		<div class="right">18th Jan</div>
 	</footer>
 </article>
 <div class="ticket_preheading">

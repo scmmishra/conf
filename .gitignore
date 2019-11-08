@@ -7,7 +7,6 @@ locale
 *.swp
 *.egg-info
 dist/
-build/
 frappe/docs/current
 .vscode
 node_modules

@@ -1,30 +1,41 @@
 <style>
 @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,500,600,700&display=swap');
 *, *::after {
-	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 	margin: 0;
 }
 body {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	background-size: 32px 32px;
+	background-image: radial-gradient(circle, #dedede 1px, rgba(0, 0, 0, 0) 1px);
 	min-height: 100vh;
 	color: #000;
+	line-height: 1.625;
 	font-family: 'IBM Plex Sans', sans-serif;
-	background-color: #f4f5f6;
-	background-image: linear-gradient(to bottom left, #abb5ba, #d5dadd);
+	background-color: #E2E8F0;
 }
 .ticket {
 	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 3rem;
+	max-width: 22rem;
+	min-width: 16rem;
+}
+
+.ticket_preheading {
 	max-width: 24rem;
-	min-width: 18rem;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
 }
-.barcode {
-	background-image: url(data:image/png;
-    base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAAABCAYAAABXChlMAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuOWwzfk4AAACPSURBVChTXVAJDsMgDOsrVpELiqb+/4c0DgStQ7JMYogNh2gdvg5VfXFCRIZaC6BOtnoNFpvaumNmwb/71Frrm8XvgYkker1/g9WzMOsohaOGNziRs5inDsAn8yEPengTapJ5bmdZ2Yv7VvfPN6AH2NJx7nOWPTf1/78hoqgxhzw3ZqYG1Dr/9ur3y8vMxgNZhcAUnR4xKgAAAABJRU5ErkJggg==);
-	background-repeat: repeat-y;
-	min-width: 58px;
+
+.ticket_preheading p {
+	margin-top: 1em; 
+	color: #4A5568;
+	line-height: 1.625;
 }
+
 .ticket__accent {
 	color: #ecc94b;
 }
@@ -32,59 +43,21 @@ body {
 	padding: 1.25rem;
 	background-color: white;
 	border: 1px solid #abb5ba;
-	box-shadow: 0 2px 4px rgba(41, 54, 61, 0.25);
+	-webkit-box-shadow: 0 2px 4px rgba(41, 54, 61, 0.25);
+	        box-shadow: 0 2px 4px rgba(41, 54, 61, 0.25);
 }
 .ticket__header {
 	font-size: 1.5rem;
 	border-top: 0.25rem solid #ecc94b;
-	border-bottom: none;
-	box-shadow: none;
+	border-bottom: 2px dashed #e9ebed;
+	-webkit-box-shadow: none;
+	        box-shadow: none;
 }
 .ticket__wrapper {
-	box-shadow: 0 2px 4px rgba(41, 54, 61, 0.25);
+	-webkit-box-shadow: 0 2px 4px rgba(41, 54, 61, 0.25);
+	        box-shadow: 0 2px 4px rgba(41, 54, 61, 0.25);
 	border-radius: 0.375em 0.375em 0 0;
 	overflow: hidden;
-}
-.ticket__divider {
-	position: relative;
-	height: 1rem;
-	background-color: white;
-	margin-left: 0.5rem;
-	margin-right: 0.5rem;
-}
-.ticket__divider::after {
-	content: '';
-	position: absolute;
-	height: 50%;
-	width: 100%;
-	top: 0;
-	border-bottom: 2px dashed #e9ebed;
-}
-.ticket__notch {
-	position: absolute;
-	left: -0.5rem;
-	width: 1rem;
-	height: 1rem;
-	overflow: hidden;
-}
-.ticket__notch::after {
-	content: '';
-	position: relative;
-	display: block;
-	width: 2rem;
-	height: 2rem;
-	right: 100%;
-	top: -50%;
-	border: 0.5rem solid white;
-	border-radius: 50%;
-	box-shadow: inset 0 2px 4px rgba(41, 54, 61, 0.25);
-}
-.ticket__notch--right {
-	left: auto;
-	right: -0.5rem;
-}
-.ticket__notch--right::after {
-	right: 0;
 }
 .ticket__body {
 	border-bottom: none;
@@ -105,25 +78,34 @@ body {
 .ticket__header,.ticket__footer {
 	font-weight: bold;
 	font-size: 1.25rem;
-	display: flex;
-	justify-content: space-between;
+	display: block;
 }
 .ticket__footer {
 	border-top: 2px dashed #e9ebed;
 	border-radius: 0 0 0.325rem 0.325rem;
 }
+
+.ticket__footer div {
+	display: inline-block;
+	width: 48%;
+}
+.ticket__footer .right {
+	text-align: right;
+}
 </style>
+<body>
+<div style="height: 5em;"></div>
+<div class="ticket_preheading">
+	<h2>Here's Your Ticket for IndiaOS</h2>
+	<p>We look forward to seeing you at the conference. <br>We shall send you an email with the agenda soon.
+	</p>
+</div>
 <article class="ticket">
 	<header class="ticket__wrapper">
 		<div class="ticket__header">
-			<div>{{ full_name.split()[0] }}</div>
-			<div class="barcode"></div>
+			<div>{{ full_name }}</div>
 		</div>
 	</header>
-	<div class="ticket__divider">
-		<div class="ticket__notch"></div>
-		<div class="ticket__notch ticket__notch--right"></div>
-	</div>
 	<div class="ticket__body">
 		<section class="ticket__section">
 			<h3>Venue</h3>
@@ -139,6 +121,11 @@ body {
 	</div>
 	<footer class="ticket__footer">
 		<div>India<span class="ticket__accent">OS</span></div>
-		<span>18th Jan</span>
+		<div class="right">18th Jan</div>
 	</footer>
 </article>
+<div class="ticket_preheading">
+	<p>Meanwhile you can take a look at <a style="color: #252525;" href="https://indiaos.in/travel">things you can do in Bangalore</a> while you are there.
+	</p>
+</div>
+</body>

@@ -16,19 +16,17 @@ class ConferenceParticipant(Document):
 		self.send_mail()
 
 	def send_mail(self):
-		try:
-			frappe.sendmail(
-				recipients = self.email,
-				subject = "Here's your ticket for IndiaOS",
-				template = "ticket",
-				args = {
-					'full_name': self.full_name,
-					'name': self.name
-				},
-				now=False
-			)
-		except frappe.exceptions.OutgoingEmailError:
-			return
+		email_args = {
+			'recipients': self.email,
+			'subject': "Here's your ticket for IndiaOS",
+			'template': "ticket",
+			'args': {
+				'full_name': self.full_name,
+				'name': self.name
+			},
+			'now':False
+		}
+		frappe.enqueue(method=frappe.sendmail, queue='short', timeout=300, is_async=True, **email_args)
 
 @frappe.whitelist(allow_guest=True)
 def register(name, email, organization='', event="IndiaOS 2019"):

@@ -11,8 +11,9 @@ class ConferenceParticipant(Document):
 		doc = frappe.get_value("Conference Participant", {'email': self.email})
 		if doc:
 			raise frappe.exceptions.UniqueValidationError 
-		else: 
-			self.send_mail()
+
+	def after_insert(self):
+		self.send_mail()
 
 	def send_mail(self):
 		frappe.sendmail(

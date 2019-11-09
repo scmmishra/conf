@@ -17,7 +17,7 @@
  "is_standard": 1,
  "login_required": 0,
  "max_attachment_size": 0,
- "modified": "2019-11-07 18:17:05.571006",
+ "modified": "2019-11-07 19:17:05.571006",
  "modified_by": "Administrator",
  "module": "Conference",
  "name": "propose-a-talk",
@@ -167,7 +167,7 @@
   },
   {
    "allow_read_on_all_link_options": 0,
-   "default": "IndiaOS 2019",
+   "default": "IndiaOS 2020",
    "fieldname": "conference",
    "fieldtype": "Link",
    "hidden": 1,

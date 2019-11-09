@@ -150,7 +150,7 @@
 		if (validated) {
 			let form = {}
 			inputs.forEach((id) => form[id] = document.getElementById(id).value)
-			form.event = "IndiaOS 2019"
+			form.event = "IndiaOS 2020"
 			frappe.call('conference.conference.doctype.conference_participant.conference_participant.register', form).then(res => {
 				let msg = res.message
 				if (msg.status == 'success') {

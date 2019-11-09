@@ -29,7 +29,7 @@ class ConferenceParticipant(Document):
 		frappe.enqueue(method=frappe.sendmail, queue='short', timeout=300, is_async=True, **email_args)
 
 @frappe.whitelist(allow_guest=True)
-def register(name, email, organization='', event="IndiaOS 2019"):
+def register(name, email, organization='', event="IndiaOS 2020"):
 	part = frappe.new_doc("Conference Participant")
 	part.full_name = name
 	part.email = email
